@@ -115,6 +115,45 @@ All configuration is done via environment variables.
 | `ALLOWED_HOSTS`   | _(all)_      | Comma-separated list of permitted request hosts |
 | `CORS_ORIGINS`    | _(none)_     | Comma-separated list of allowed CORS origins    |
 
+## Testing
+
+Tests use `pytest` and FastAPI's `TestClient`. LibreOffice is **not** required — the converter subprocess is mocked.
+
+### Setup
+
+```bash
+python -m venv venv
+source venv/bin/activate      # Windows: venv\Scripts\activate
+pip install -r requirements-dev.txt
+```
+
+`requirements-dev.txt` includes:
+
+- `pytest` — test runner
+- `httpx2` — required by FastAPI's `TestClient`
+
+### Run tests
+
+```bash
+# all tests with verbose output
+pytest tests/ -v
+
+# specific test file
+pytest tests/test_convert.py -v
+
+# stop on first failure
+pytest tests/ -x
+```
+
+### Test coverage
+
+| File                         | What's tested                                                       |
+| ---------------------------- | ------------------------------------------------------------------- |
+| `tests/test_health.py`       | `GET /health` response                                              |
+| `tests/test_convert.py`      | `/convert` happy path, file validation, auth & host checks          |
+| `tests/test_dependencies.py` | `verify_api_key` and `verify_host` edge cases                       |
+| `tests/test_converter.py`    | LibreOffice success, timeout (504), failure (500), temp dir cleanup |
+
 ## Project Structure
 
 ```
