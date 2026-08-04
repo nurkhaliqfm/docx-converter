@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 from app.config import settings
 from app.dependencies import verify_api_key, verify_host
 from app.services.converter import convert_docx_to_pdf
+from app.utils.cleanup import cleanup_tmp_dir
 
 router = APIRouter()
 
@@ -24,7 +25,7 @@ async def convert(
 
     pdf_path, tmp_dir = convert_docx_to_pdf(contents)
     original_name = Path(file.filename).stem
-    background_tasks.add_task(shutil.rmtree, tmp_dir, ignore_errors=True)
+    background_tasks.add_task(cleanup_tmp_dir, tmp_dir)
 
     return FileResponse(
         path=pdf_path,
