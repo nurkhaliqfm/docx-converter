@@ -1,0 +1,12 @@
+services:
+  converter:
+    env_file:
+      - .env.development
+    environment:
+      - FORCE_COLOR=1
+      - COLORTERM=truecolor
+    volumes:
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    tty: true
+    stdin_open: true

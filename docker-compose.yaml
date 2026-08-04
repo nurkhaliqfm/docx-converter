@@ -1,0 +1,10 @@
+name: docx2pdf-service
+services:
+  converter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${IMAGE:-docx2pdf-service:local}
+    container_name: docx2pdf-service-${ENVIRONMENT:-development}
+    ports:
+      - "${HOST_PORT:-8000}:${CONTAINER_PORT:-8000}"
