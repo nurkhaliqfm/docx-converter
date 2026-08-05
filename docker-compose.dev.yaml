@@ -7,6 +7,7 @@ services:
       - COLORTERM=truecolor
     volumes:
       - ./app:/app/app
+      - ./assets:/app/assets
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     tty: true
     stdin_open: true
